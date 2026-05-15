@@ -1,9 +1,6 @@
 # PowerShell Gaps
 
-- `powershell-stakeholder.foundation-pending`: deterministic scaffold-only baseline exists, but runtime foundation has not started.
-- `powershell-stakeholder.classic-six-pending`: the six dedicated baseline families are not implemented yet.
-- `powershell-stakeholder.modern-core-pending`: the modern-core families are not implemented yet.
-- `powershell-stakeholder.post-modern-core-pending`: later families remain grouped fallback work.
-- `powershell-stakeholder.traceability-rows-pending`: first-push traceability rows are not populated yet.
-- `powershell-stakeholder.codeql-activation-pending`: enable only if the language is supported after publication.
-- `powershell-stakeholder.flake-lock-pending`: generate `flake.lock` once the scaffold baseline is stable.
+- `powershell-stakeholder.live-provider-deferred`: full live-provider/runtime support is required eventually, but deferred to the second-pass provider rollout wave. Current behavior fails fast for `--experimental-provider`.
+- `powershell-stakeholder.post-modern-core-grouped`: later families are present as explicit grouped fallback renderers, not dedicated per-family implementations in this deterministic-first tranche.
+- `powershell-stakeholder.publication-held`: remote publication and upstream tracking remain blocked until governance and access are ready.
+- `powershell-stakeholder.codeql-deferred`: language-specific CodeQL is not enabled for this PowerShell tranche unless a supported source-analysis lane is confirmed after publication.

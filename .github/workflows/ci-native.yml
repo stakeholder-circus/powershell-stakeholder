@@ -1,15 +1,20 @@
 name: ci-native
 
 on:
-  push:
-  pull_request:
+  workflow_call:
+  workflow_dispatch:
 
 jobs:
-  scaffold-check:
+  native:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
-      - run: python3 scripts/validate_scaffold.py
+      - name: Install Pester
+        shell: pwsh
+        run: Install-Module Pester -Force -Scope CurrentUser
+      - name: Run checks
+        shell: pwsh
+        run: |
+          python3 scripts/validate_scaffold.py
+          Invoke-Pester -Path tests -CI
+          ./bin/powershell-stakeholder.ps1 --output-format json --focus-family code_analyzer --seed 123

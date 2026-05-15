@@ -1,3 +1,7 @@
+# PowerShell/Pester local artifacts
+testResults.xml
+TestResults/
+
 # Created by https://www.toptal.com/developers/gitignore/api/rust,macos,linux,windows,visualstudiocode,jetbrains,vim,emacs,direnv
 # Edit at https://www.toptal.com/developers/gitignore?templates=rust,macos,linux,windows,visualstudiocode,jetbrains,vim,emacs,direnv
 

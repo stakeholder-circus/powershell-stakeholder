@@ -8,8 +8,15 @@
 - `stakeholder-core` remains the behavioral contract.
 - This repo is deterministic-first for the initial tranche.
 
-## Promotion prerequisites
-- Deterministic `classic-six + modern-core` implemented.
-- Native and Docker validation green.
-- `--list-values`, deterministic same-seed JSON, and experimental-provider fail-fast present.
+## Implemented parity surface
+- Full dedicated `classic-six`.
+- Full dedicated `modern-core`.
+- Grouped fallback for later families.
+- Deterministic normalized JSON output.
+- `--list-values` full registry metadata.
+- Same-seed byte-stable JSON.
+- Explicit experimental-provider fail-fast.
+
+## Promotion blockers
 - Publication/governance wave complete and remote access available.
+- Second-pass live-provider rollout for eventual program completeness.

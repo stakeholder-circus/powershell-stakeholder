@@ -1,6 +1,6 @@
-# Rust Edge Cases
+# PowerShell Edge Cases
 
-- Seeded JSON runs must remain deterministic.
-- `alerts` and `team` act as injections into the scheduler, not alternate modes.
-- Healthcare, charging, protocol, and quantum families should only enter plans when dev type or keyword routing makes them eligible.
+- Seeded JSON runs must remain byte-stable for the same family and seed.
+- Dashed family input is normalized to underscore family ids.
+- Later families route through grouped fallback renderers until they get dedicated implementations.
 - Experimental live-provider concepts must not affect default deterministic output.

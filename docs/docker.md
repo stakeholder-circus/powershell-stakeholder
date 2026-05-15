@@ -1,9 +1,10 @@
-# Rust Docker
+# PowerShell Docker
 
 ## Build and test
-- `docker build -t rust-stakeholder .`
-- `docker run --rm rust-stakeholder --list-values`
+- `docker build -t powershell-stakeholder .`
+- `docker run --rm powershell-stakeholder --list-values`
+- `docker run --rm powershell-stakeholder --output-format json --focus-family code_analyzer --seed 123`
 
 ## Rationale
-- The image compiles and tests the Rust baseline before packaging the runtime binary.
-- Docker is the reproducible Linux gate; host and CI matrices still cover native OS behavior.
+- The image packages the deterministic PowerShell CLI on the official PowerShell runtime.
+- Docker is the reproducible Linux gate; host checks still cover local shell behavior.

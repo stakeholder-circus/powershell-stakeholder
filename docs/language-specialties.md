@@ -1,5 +1,5 @@
-# Rust Language Specialties
+# PowerShell Language Specialties
 
-- Rust is the canonical scheduler and generator baseline.
-- Shared domain concepts are modeled explicitly so follower languages can port stable semantics instead of re-deriving them.
-- Rust remains the reference for deterministic seeded behavior and normalized JSON semantics.
+- PowerShell is useful for shell-native automation, Windows-oriented orchestration, and release/check scripts.
+- The first tranche keeps IO at the CLI boundary and emits deterministic normalized JSON.
+- Provider/session automation is deferred so deterministic CI remains provider-free.
