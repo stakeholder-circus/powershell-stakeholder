@@ -29,7 +29,7 @@ function Get-RegistryId {
     $Family.Replace('_', '-')
 }
 
-function Normalize-Family {
+function ConvertTo-FamilyName {
     param([string] $Value)
     if ([string]::IsNullOrWhiteSpace($Value)) { return $null }
     $normalized = $Value.Trim().ToLowerInvariant().Replace('-', '_')
@@ -45,7 +45,7 @@ function Get-FallbackGroup {
     return 'health_protocol'
 }
 
-function Get-Metadata {
+function Get-FamilyDescriptor {
     param([Parameter(Mandatory)][string] $Family)
     if ($Dedicated.ContainsKey($Family)) { return $Dedicated[$Family] }
     $group = Get-FallbackGroup -Family $Family
@@ -62,12 +62,12 @@ function Get-DeterministicHash {
     $hash
 }
 
-function New-ListValues {
+function Get-ListValuePayload {
     [ordered]@{
         outputFormats = @('text', 'json')
         flags = @('list-values', 'focus-family', 'output-format', 'seed', 'experimental-provider')
         generatorFamilies = @($AllFamilies | ForEach-Object {
-            $meta = Get-Metadata -Family $_
+            $meta = Get-FamilyDescriptor -Family $_
             [ordered]@{ id = $_; registryId = Get-RegistryId -Family $_; rendererKey = $meta.Renderer; tranche = $meta.Tranche }
         })
         classicSix = @($ClassicSix | ForEach-Object { Get-RegistryId -Family $_ })
@@ -77,15 +77,15 @@ function New-ListValues {
     }
 }
 
-function New-FocusPayload {
+function Get-FocusPayload {
     param(
         [Parameter(Mandatory)][string] $Family,
         [Parameter(Mandatory)][string] $Seed,
         [Parameter(Mandatory)][string] $OutputFormat
     )
-    $normalized = Normalize-Family -Value $Family
+    $normalized = ConvertTo-FamilyName -Value $Family
     if (-not $normalized) { throw "invalid family: $Family" }
-    $meta = Get-Metadata -Family $normalized
+    $meta = Get-FamilyDescriptor -Family $normalized
     $hash = Get-DeterministicHash -Value "$Seed::$normalized"
     $seconds = $hash % 86400
     $hour = [math]::Floor($seconds / 3600)
@@ -126,7 +126,7 @@ for ($i = 0; $i -lt $args.Count; $i++) {
         '--list-values' { $listValues = $true }
         '--focus-family' {
             if (++$i -ge $args.Count) { Write-Error 'missing value for --focus-family' -ErrorAction Continue; exit 2 }
-            $focusFamily = Normalize-Family -Value $args[$i]
+            $focusFamily = ConvertTo-FamilyName -Value $args[$i]
             if (-not $focusFamily) { Write-Error "invalid --focus-family: $($args[$i])" -ErrorAction Continue; exit 2 }
         }
         '--seed' {
@@ -155,7 +155,7 @@ for ($i = 0; $i -lt $args.Count; $i++) {
 }
 
 if ($listValues) {
-    New-ListValues | ConvertTo-Json -Depth 8
+    Get-ListValuePayload | ConvertTo-Json -Depth 8
     exit 0
 }
 
@@ -164,7 +164,7 @@ if (-not $focusFamily) {
     exit 2
 }
 
-$payload = New-FocusPayload -Family $focusFamily -Seed $seed -OutputFormat $outputFormat
+$payload = Get-FocusPayload -Family $focusFamily -Seed $seed -OutputFormat $outputFormat
 if ($outputFormat -eq 'json') {
     $payload | ConvertTo-Json -Depth 8
     exit 0
